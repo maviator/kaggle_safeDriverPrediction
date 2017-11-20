@@ -41,7 +41,7 @@ from sklearn.utils import shuffle
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
-import seaborn as sns
+#import seaborn as sns
 
 # Configure visualisations
 #get_ipython().magic(u'matplotlib inline')
@@ -129,7 +129,7 @@ del features
 # In[17]:
 
 # RFC Parameters tunning 
-RFC = RandomForestClassifier(n_estimators=200, n_jobs=-1, verbose=1)
+RFC = RandomForestClassifier(n_estimators=2000, n_jobs=-1, verbose=1)
 
 RFC.fit(train_features, train_labels)
 
