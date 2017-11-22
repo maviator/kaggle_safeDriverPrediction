@@ -204,6 +204,24 @@ lgb_params3['learning_rate'] = 0.02
 lgb_params3['seed'] = 99
 
 
+MAX_ROUNDS = 300
+OPTIMIZE_ROUNDS = False
+LEARNING_RATE = 0.07
+EARLY_STOPPING_ROUNDS = 50
+
+xgbc_params = {}
+xgbc_params['n_estimators'] = MAX_ROUNDS
+xgbc_params['max_depth'] = 4
+xgbc_params['objective'] = "binary:logistic"
+xgbc_params['learning_rate'] = LEARNING_RATE
+xgbc_params['subsample'] = .8
+xgbc_params['min_child_weight'] = 6
+xgbc_params['colsample_bytree'] = .8
+xgbc_params['scale_pos_weight'] = 1.6
+xgbc_params['gamma'] = 10
+xgbc_params['reg_alpha'] = 8
+xgbc_params['reg_lambda'] = 1.3
+
 # In[17]:
 
 lgb_model = LGBMClassifier(**lgb_params)
@@ -212,6 +230,7 @@ lgb_model2 = LGBMClassifier(**lgb_params2)
 
 lgb_model3 = LGBMClassifier(**lgb_params3)
 
+xgbc_model = XGBClassifier(**xgbc_params)
 
 # In[18]:
 
@@ -220,7 +239,7 @@ log_model = LogisticRegression()
 
 # In[31]:
 
-stack = EnsembleStack(log_model, (lgb_model, lgb_model2, lgb_model3))        
+stack = EnsembleStack(log_model, (lgb_model, lgb_model2, lgb_model3, xgbc_model))        
 
 
 # In[32]:
@@ -239,7 +258,7 @@ test_y.shape
 test_submit = pd.DataFrame({'id': test_id, 'target': test_y})
 test_submit.shape
 test_submit.head()
-test_submit.to_csv('stacking.csv', index=False)
+test_submit.to_csv('stacking_xbgc.csv', index=False)
 
 
 # ## History
