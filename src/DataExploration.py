@@ -152,27 +152,27 @@ print("Memory consumed by training set  :   {} MB" .format(mem/ 1024**2))
 del train
 del test
 
+# ## Data preprocessing
 
-# ## Converting categorical variables' type to str
+# In[14]:
+
+col_to_drop = features.columns[features.columns.str.startswith('ps_calc_')]
+features = features.drop(col_to_drop, axis=1)
+
 
 # In[15]:
 
-for col in features.columns:
-    if col[-3:] == "cat":
-        features[col] = features[col].astype(str)
-
-
-# In[16]:
-
-#features.dtypes
+features = features.replace(-1, np.nan)
 
 
 # ## One Hot encoding of categorical variables
 
 # In[17]:
 
+cat_features = [a for a in features.columns if a.endswith('cat')]
+
 # Getting Dummies from all categorical vars
-for col in features.dtypes[features.dtypes == 'object'].index:
+for col in cat_features:
     for_dummy = features.pop(col)
     features = pd.concat([features, pd.get_dummies(for_dummy, prefix=col)], axis=1)
 
